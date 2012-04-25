@@ -17,7 +17,6 @@ public class Application extends Controller {
         
         public String validate() {
             if(User.authenticate(username, password) == null) {
-            	Logger.error("NOOOO");
                 return "Invalid user or password";
             }
             return null;
@@ -52,7 +51,6 @@ public class Application extends Controller {
         
 		Form<Login> loginForm = form(Login.class).bindFromRequest();
         if(loginForm.hasErrors()) {
-        	Logger.error("NOOOOOw");
             return badRequest(index.render(loginForm));
         } else {
             
@@ -65,7 +63,6 @@ public class Application extends Controller {
 	
   public static Result index() {
 	  String currentUser = session("currentUser");
-	  Logger.error("CURRENT USER:" + currentUser);
 	if(currentUser==null){
 		return redirect(routes.Application.login());
 	}else{

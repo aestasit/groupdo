@@ -3,8 +3,7 @@ package models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.UniqueConstraint;
-import play.data.validation.*;
+
 import play.db.ebean.Model;
 @Entity
 public class User extends Model{
@@ -16,11 +15,8 @@ public class User extends Model{
 	
 	public String password;
 	
-	public static User authenticate(String email, String password) {
-        return find.where()
-            .eq("email", email)
-            .eq("password", password)
-            .findUnique();
-    }
-	
+
+	public static Finder<Long,User> find = new Finder<Long,User>(Long.class, User.class); 
+	 
+>>>>>>> dad848ad83adb57171875cac7393d574fe0805e2
 }

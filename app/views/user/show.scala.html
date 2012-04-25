@@ -2,4 +2,12 @@
 @main("You"){
 
 	<h1>Your page</h1>
+	
+	@if(createdByYou.isEmpty()) {
+  		<p>Nothing to display</p>
+	} else {
+  		<p>@createdByYou.size() items!</p>	
+	}
+	<p><a href="@routes.Projects.newProject()">Create a new Project</a>
+		
 }

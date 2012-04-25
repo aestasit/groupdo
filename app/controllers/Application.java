@@ -11,7 +11,7 @@ public class Application extends Controller {
     
     public static class Login {
         
-        public String email;
+        public String username;
         public String password;
         
         public String validate() {
@@ -47,11 +47,13 @@ public class Application extends Controller {
      * Handle login form submission.
      */
     public static Result authenticate() {
-        Form<Login> loginForm = form(Login.class).bindFromRequest();
+        
+		Form<Login> loginForm = form(Login.class).bindFromRequest();
         if(loginForm.hasErrors()) {
             return badRequest(index.render(loginForm));
         } else {
-            session("email", loginForm.get().email);
+            
+			session("username", loginForm.get().username);
             return redirect(
                 routes.Projects.index()
             );

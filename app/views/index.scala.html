@@ -5,9 +5,9 @@
     <p>please login or <a href="@routes.Users.signup()">signup for a new account</a></p>
     <form class="well">
     	<label>Username:</label>
-    	<input type="text" class="span3" placeholder="Your username:"/>
+    	<input type="text" class="span3" name="username" placeholder="Your username:" value="@form("username").value"/>
     	<label>Password:</label>
-    	<input type="password" class="span3" placeholder="Your password:"/>
+    	<input type="password" class="span3" name="password" placeholder="Your password:"/>
     	<button type="submit" class="btn">login</button>
     </form>
     

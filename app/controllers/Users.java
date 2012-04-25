@@ -5,7 +5,7 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class Users extends Controller{
+public class Users extends Controller {
 	
 	public static Result signup(){
 		Form<SignupForm> userForm = form(SignupForm.class);

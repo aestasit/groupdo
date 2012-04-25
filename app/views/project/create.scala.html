@@ -1,0 +1,20 @@
+@(projectForm: Form[Project])
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("Create a project") {
+    
+    <h1>Add a project</h1>
+	@form(routes.Projects.saveProject()){
+		<fieldset>
+		 @inputText(projectForm("name"), '_label -> "Project name")
+		 </fieldset>
+		 <div class="actions">
+            <input type="submit" value="Save this project" class="btn primary"> or 
+            <a href="@routes.Application.index()" class="btn">Cancel</a> 
+        </div>
+	}	
+	
+
+}

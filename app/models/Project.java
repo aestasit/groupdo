@@ -2,10 +2,26 @@ package models;
 
 import java.util.List;
 
-public class Project {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import play.data.validation.Constraints.Required;
+import play.db.ebean.Model;
+
+@Entity
+public class Project extends Model{
 	
+	@Id
 	public Long id;
-	public List<Task> tasks;
-	public User creator;
-	public List<User> users;
+	@Required
+	public String name;
+	
+	
+	public static Finder<Long,Project> find = new Finder<Long,Project>(Long.class, Project.class); 
+	public transient List<Task> tasks;
+	public transient User creator;
+	public transient List<User> users;
+	
+	
+	
 }

@@ -18,5 +18,5 @@ public class User extends Model{
 
 	public static Finder<Long,User> find = new Finder<Long,User>(Long.class, User.class); 
 	 
->>>>>>> dad848ad83adb57171875cac7393d574fe0805e2
+
 }

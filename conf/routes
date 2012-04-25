@@ -14,5 +14,8 @@ POST    /tasks/:id/delete       controllers.Application.deleteTask(id: Long)
 GET 	/projects/create         controllers.Projects.newProject() 
 POST 	/projects/create         controllers.Projects.saveProject() 			
 GET 	/projects/:id            controllers.Projects.show(id: Long)
+# Users
+GET    /users/signup	         controllers.Users.signup()
+POST    /users/signup	         controllers.Users.createUser()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -19,7 +20,8 @@ public class Project extends Model{
 	
 	public static Finder<Long,Project> find = new Finder<Long,Project>(Long.class, Project.class); 
 	public transient List<Task> tasks;
-	public transient User creator;
+	@ManyToOne
+	public User creator;
 	public transient List<User> users;
 	
 	

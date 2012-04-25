@@ -1,0 +1,20 @@
+@(userForm : Form[SignupForm])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("signup"){
+	
+	<h1>signup</h1>
+	@form(routes.Users.createUser()){
+		<fieldset>
+		 @inputText(userForm("username"), '_label -> "Username")
+		 @inputPassword(userForm("password"), '_label -> "Password")
+		 @inputPassword(userForm("confirmPassword"), '_label -> "Confirm Password")
+		 </fieldset>
+		 <div class="actions">
+            <input type="submit" value="Signup" class="btn primary"> or 
+            <a href="@routes.Application.index()" class="btn">Cancel</a> 
+        </div>
+	}
+}

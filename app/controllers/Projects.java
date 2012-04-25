@@ -22,7 +22,7 @@ public class Projects extends Controller{
 	    p.name = projectForm.get().name;
 	    p.save();
 	    
-		return redirect(routes.Projects.show(p.id));
+		return redirect(routes.Application.index());
 	}
   
   public static Result show(Long  id){

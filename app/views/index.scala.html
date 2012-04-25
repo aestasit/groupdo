@@ -1,14 +1,20 @@
-@(form: Form[Application.Login])
+@(loginForm: Form[Application.Login])
+@import helper._
+@import helper.twitterBootstrap._
 
 @main("Welcome to groupdo") {
     <p>welcome to groupdo</p>
     <p>please login or <a href="@routes.Users.signup()">signup for a new account</a></p>
-    <form class="well">
-    	<label>Username:</label>
-    	<input type="text" class="span3" name="username" placeholder="Your username:" value="@form("username").value"/>
-    	<label>Password:</label>
-    	<input type="password" class="span3" name="password" placeholder="Your password:"/>
-    	<button type="submit" class="btn">login</button>
-    </form>
+    
+    @form(routes.Application.authenticate()){
+		<fieldset>
+		 @inputText(loginForm("username"), '_label -> "username")
+		 @inputPassword(loginForm("password"), '_label -> "password")
+		 </fieldset>
+		 <div class="actions">
+            <input type="submit" value="Login" class="btn primary">
+        </div>
+	}	
+    
     
 }

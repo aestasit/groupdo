@@ -10,7 +10,7 @@ public class Secured extends Security.Authenticator {
     
     @Override
     public String getUsername(Context ctx) {
-        return ctx.session().get("email");
+        return ctx.session().get("currentUser");
     }
     
     @Override
@@ -29,11 +29,11 @@ public class Secured extends Security.Authenticator {
     }
     
     public static boolean isOwnerOf(Long task) {
-        return false;
-		//return Task.isOwner(
-        //    task,
-        //    Context.current().request().username()
-        //);
+        
+		return Project.isOwner(
+            task,
+            Context.current().request().username()
+        );
     }
     
 }

@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import play.api.libs.Crypto;
 import play.db.ebean.Model;
 @Entity
 public class User extends Model{
@@ -18,10 +19,10 @@ public class User extends Model{
 
 	public static Finder<Long,User> find = new Finder<Long,User>(Long.class, User.class); 
 	
-	public static User authenticate(String email, String password) {
+	public static User authenticate(String username, String password) {
 	        return find.where()
-	            .eq("email", email)
-	            .eq("password", password)
+	            .eq("username", username)
+	            .eq("password", Crypto.sign(password))
 	            .findUnique();
 	    }
 

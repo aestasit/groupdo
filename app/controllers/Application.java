@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Logger;
 import play.mvc.*;
 import views.html.*;
 import models.*;
@@ -15,7 +16,8 @@ public class Application extends Controller {
         public String password;
         
         public String validate() {
-            if(User.authenticate(email, password) == null) {
+            if(User.authenticate(username, password) == null) {
+            	Logger.error("NOOOO");
                 return "Invalid user or password";
             }
             return null;
@@ -39,7 +41,7 @@ public class Application extends Controller {
         session().clear();
         flash("success", "You've been logged out");
         return redirect(
-            routes.Application.login()
+            routes.Application.index()
         );
     }
 	
@@ -50,18 +52,25 @@ public class Application extends Controller {
         
 		Form<Login> loginForm = form(Login.class).bindFromRequest();
         if(loginForm.hasErrors()) {
+        	Logger.error("NOOOOOw");
             return badRequest(index.render(loginForm));
         } else {
             
-			session("username", loginForm.get().username);
+			session("currentUser", loginForm.get().username);
             return redirect(
-                routes.Projects.index()
+                routes.Users.view(loginForm.get().username)
             );
         }
     }
 	
   public static Result index() {
-    return ok(index.render("Your new application is ready."));
+	  String currentUser = session("currentUser");
+	  Logger.error("CURRENT USER:" + currentUser);
+	if(currentUser==null){
+		return redirect(routes.Application.login());
+	}else{
+		return redirect(routes.Users.view(currentUser));
+	}
     //return redirect(routes.Application.tasks());
   }
 

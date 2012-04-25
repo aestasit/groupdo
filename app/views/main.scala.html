@@ -13,6 +13,9 @@
     <body>
     
     	<div class="container">
+    		@if(session.get("currentUser")){
+    			<a href="@routes.Application.logout()">Logout</a>
+    		}
         	@content
         </div>
     </body>

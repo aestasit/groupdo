@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.Expression;
+
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -24,6 +26,8 @@ public class Project extends Model{
 	public User creator;
 	public transient List<User> users;
 	
-	
+	public static boolean isOwner(Long projectId,String username){
+		return find.where().idEq(projectId).eq("creator.username", username).findUnique() !=null;
+	}
 	
 }

@@ -6,6 +6,7 @@ import play.data.*;
 import play.*;
 import play.mvc.*;
 import views.html.*;
+@Security.Authenticated(Secured.class)
 public class Projects extends Controller{
 	
 	

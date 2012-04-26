@@ -39,12 +39,7 @@ public class Projects extends Controller{
 	}
 	
   public static Result saveProject(){
-	    String u = session("currentUser");
-	    if(u==null){
-	    	return unauthorized();
-	    }else{
-	    	User user = User.find.where().eq("username", u).findUnique();
-	    
+	    User user = User.find.where().eq("username", session("currentUser")).findUnique();
 	    Form<Project> projectForm = form(Project.class).bindFromRequest();
 	    if(projectForm.hasErrors()) {
             return badRequest(views.html.project.create.render(projectForm));
@@ -53,8 +48,8 @@ public class Projects extends Controller{
 	    p.name = projectForm.get().name;
 	    p.creator = user;
 	    p.save();
-	    }
-		return redirect(routes.Users.view(u));
+	    
+		return redirect(routes.Users.view(user.username));
 	}
   
   public static Result show(Long  id){

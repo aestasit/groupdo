@@ -27,7 +27,7 @@ public class Global extends GlobalSettings{
 	        public static void insert(Application app) {
 	        	
 	        	int projects = Ebean.find(Project.class).findRowCount(); 
-	            if(projects>0){
+	            if(projects==0){
 	        	Map<String,List<Object>> all = (Map<String,List<Object>>)Yaml.load("initial-data.yaml");
 
 	                // Insert users first

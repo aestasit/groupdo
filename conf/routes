@@ -20,6 +20,7 @@ GET 	/projects/create         controllers.Projects.newProject()
 POST 	/projects/create         controllers.Projects.saveProject() 			
 GET 	/projects/:id            controllers.Projects.show(id: Long)
 GET 	/projects/:id/invite     controllers.Projects.invite(id: Long)
+POST   /projects/:id/invite      controllers.Projects.inviteSave(id: Long)
 # Users
 GET    /users/signup	         controllers.Users.signup()
 POST   /users/signup	         controllers.Users.createUser()

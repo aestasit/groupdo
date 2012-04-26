@@ -16,7 +16,7 @@
   				</p>
   			</div>
   		}
-  		<div id="modal"></div>
+  		<div id="modal" class="modal hide fade" style="display:block"></div>
   		<script>
   			$('.inviter').on('click',function(evt){
   				evt.preventDefault();
@@ -24,6 +24,7 @@
   				$('#modal').load(href,function(){
   		            $(this).modal({
   		                keyboard:true,
+  		                backdrop:true,
   		                show:true
   		              });
   		        });

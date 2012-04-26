@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,6 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.avaje.ebean.Expr;
+import com.avaje.ebean.Expression;
+
+import play.Logger;
 import play.api.libs.Crypto;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -39,7 +44,15 @@ public class User extends Model{
 	    }
 	
 	public static List<User> findNotPartecipating(Long projectId){
-		return find.where().ne("createdProjects.id", projectId).ne("joinedProjects.id",projectId).findList();
+		Expression owner = Expr.eq("createdProjects.id",projectId);
+		Expression member = Expr.eq("joinedProjects.id",projectId);
+		List<User> invitables = find.select("id").where().add(owner).findList();
+		invitables.addAll(find.select("id").where().add(member).findList());
+		List<Long> ids = new ArrayList<Long>();
+		for (User u : invitables) {
+			ids.add(u.id);
+		}
+		return find.where().not(Expr.in("id", ids)).findList(); 
 	}
 
 }

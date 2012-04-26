@@ -54,10 +54,11 @@ public class Projects extends Controller{
   
   public static Result show(Long  id){
 	  Project p = Project.find.setId(id).findUnique();
-	  Logger.error("id:" +p.name);
+	 
 	  if(p==null){
 		  return notFound();
 	  }
+	  Logger.error("id:" +p.name);
 	  return ok(views.html.project.view.render(p));
   }
 }

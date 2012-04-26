@@ -1,12 +1,12 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
-import com.avaje.ebean.Expression;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -24,8 +24,12 @@ public class Project extends Model{
 	public transient List<Task> tasks;
 	@ManyToOne
 	public User creator;
-	public transient List<User> users;
 	
+	@ManyToMany
+	public List<User> members = new ArrayList<User>();
+	public int getMembers(){
+		return 1 + (members!=null?members.size():0);
+	}
 	public static boolean isOwner(Long projectId,String username){
 		return find.where().idEq(projectId).eq("creator.username", username).findUnique() !=null;
 	}

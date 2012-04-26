@@ -1,0 +1,57 @@
+
+# Users
+
+users:
+
+    - !!models.User
+        id:         1
+        username:   user1
+        password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
+    
+    - !!models.User
+        id:         2
+        username:       user2
+        password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
+    
+    - !!models.User
+        id:         3
+        username:   user3
+        password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
+    
+    - !!models.User
+        id:         4
+        username:   user4
+        password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
+        
+    - !!models.User
+        id:         5
+        username:   user5
+        password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
+    
+    - !!models.User
+        id:         6
+        username:   user6
+        password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
+    
+    - !!models.User
+        id:         7
+        username:   user7
+        password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
+    
+    - !!models.User
+        id:         8
+        username:   user8
+        password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
+
+projects:
+
+    - !!models.Project
+        id:         1
+        name:       My project   
+        creator:    !!models.User
+                        id: 1
+        members:
+            - !!models.User
+                id: 2
+            - !!models.User
+                id: 3

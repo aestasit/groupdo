@@ -3,11 +3,34 @@
 
 	<h1>Your page</h1>
 	
+	<p><a href="@routes.Projects.newProject()">Create a new Project</a>
 	@if(createdByYou.isEmpty()) {
   		<p>Nothing to display</p>
 	} else {
-  		<p>@createdByYou.size() items!</p>	
+  		@for(p <- createdByYou){
+  			<div class="span3 well">
+  				<h3>@p.name</h3>
+  				<p>
+  				<span class="badge badge-info">@(p.getMembers())</span><span> users</span>
+  				<span><a href="@routes.Projects.invite(p.id)" class="inviter">Invite people to this group</a></span>
+  				</p>
+  			</div>
+  		}
+  		<div id="modal"></div>
+  		<script>
+  			$('.inviter').on('click',function(evt){
+  				evt.preventDefault();
+  				var href = $(this).attr("href");
+  				$('#modal').load(href,function(){
+  		            $(this).modal({
+  		                keyboard:true,
+  		                show:true
+  		              });
+  		        });
+  			});
+  		
+  		</script>	
 	}
-	<p><a href="@routes.Projects.newProject()">Create a new Project</a>
-		
+	
+	
 }

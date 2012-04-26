@@ -1,11 +1,14 @@
 package controllers;
 
+import java.util.List;
+
 import models.Project;
 import models.User;
-import play.data.*;
-import play.*;
-import play.mvc.*;
-import views.html.*;
+import play.Logger;
+import play.data.Form;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Security;
 @Security.Authenticated(Secured.class)
 public class Projects extends Controller{
 	
@@ -15,6 +18,12 @@ public class Projects extends Controller{
 		return ok(views.html.project.create.render(projectForm));
 	}
   
+	
+	public static Result invite(Long projectId){
+		List<User> invitables = User.findNotPartecipating(projectId);
+		return ok(views.html.project.invite.render(invitables));
+	}
+	
   public static Result saveProject(){
 	    String u = session("currentUser");
 	    if(u==null){

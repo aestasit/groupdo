@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.*;
+import play.Logger;
 import play.api.libs.Crypto;
 import play.data.Form;
 import play.mvc.Controller;
@@ -30,6 +31,7 @@ public class Users extends Controller {
 	
 	public static Result view(String username){
 		String u = session("currentUser");
+		Logger.info(Crypto.sign("test"));
 		if(u==null){
 			return unauthorized("You are not authorized");
 		}else{

@@ -18,6 +18,12 @@ create table user (
   constraint pk_user primary key (id))
 ;
 
+
+create table project_user (
+  project_id                     bigint not null,
+  user_id                        bigint not null,
+  constraint pk_project_user primary key (project_id, user_id))
+;
 create sequence project_seq;
 
 create sequence user_seq;
@@ -27,11 +33,17 @@ create index ix_project_creator_1 on project (creator_id);
 
 
 
+alter table project_user add constraint fk_project_user_project_01 foreign key (project_id) references project (id) on delete restrict on update restrict;
+
+alter table project_user add constraint fk_project_user_user_02 foreign key (user_id) references user (id) on delete restrict on update restrict;
+
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists project;
+
+drop table if exists project_user;
 
 drop table if exists user;
 

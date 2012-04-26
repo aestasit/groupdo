@@ -10,6 +10,13 @@ create table project (
   constraint pk_project primary key (id))
 ;
 
+create table task (
+  id                        bigint,
+  label                     varchar(255),
+  completed                 timestamp,
+  project_id                bigint)
+;
+
 create table user (
   id                        bigint not null,
   username                  varchar(255),
@@ -24,12 +31,14 @@ create table project_user (
   user_id                        bigint not null,
   constraint pk_project_user primary key (project_id, user_id))
 ;
-create sequence project_seq;
+create sequence project_seq start with 1000;
 
-create sequence user_seq;
+create sequence user_seq start with 1000;
 
 alter table project add constraint fk_project_creator_1 foreign key (creator_id) references user (id) on delete restrict on update restrict;
 create index ix_project_creator_1 on project (creator_id);
+alter table task add constraint fk_task_project_2 foreign key (project_id) references project (id) on delete restrict on update restrict;
+create index ix_task_project_2 on task (project_id);
 
 
 
@@ -44,6 +53,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 drop table if exists project;
 
 drop table if exists project_user;
+
+drop table if exists task;
 
 drop table if exists user;
 

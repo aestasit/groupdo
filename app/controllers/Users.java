@@ -8,7 +8,8 @@ import play.api.libs.Crypto;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-
+import play.mvc.Security;
+@Security.Authenticated(Secured.class)
 public class Users extends Controller {
 	
 	public static Result signup(){
@@ -30,20 +31,14 @@ public class Users extends Controller {
 	}
 	
 	public static Result view(String username){
-		String u = session("currentUser");
-		Logger.info(Crypto.sign("test"));
-		if(u==null){
-			return unauthorized("You are not authorized");
-		}else{
-			User user = User.find.where().eq("username",username).findUnique();
-			if(user==null){
-				return notFound();
-			}
-					
-			List<Project> createdByYou = Project.find.where().eq("creator", user).findList();
-			return ok(views.html.user.show.render(createdByYou));
-		}
 		
+		User user = User.find.where().eq("username",username).findUnique();
+		if(user==null){
+			return notFound();
+		}
+					
+		List<Project> createdByYou = Project.find.where().eq("creator", user).findList();
+		return ok(views.html.user.show.render(createdByYou));
 		
 	}
 }

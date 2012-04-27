@@ -1,0 +1,14 @@
+@(projects:List[Project])
+@main("All projects"){
+@for(p<-projects){
+  			<div class="span3 well">
+  				<h3>@p.name</h3>
+  				<p>
+  				<span class="badge badge-info">@(p.getMembers())</span><span> users</span>
+  				@if(!p.isCreatorOrMember(session.get("currentUser"))){
+  					<span><a href="" class="btn">Join</a></span>
+  				}
+  				</p>
+  			</div>
+	}
+}

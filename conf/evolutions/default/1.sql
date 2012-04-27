@@ -31,9 +31,9 @@ create table project_user (
   user_id                        bigint not null,
   constraint pk_project_user primary key (project_id, user_id))
 ;
-create sequence project_seq start with 1000;
+create sequence project_seq;
 
-create sequence user_seq start with 1000;
+create sequence user_seq;
 
 alter table project add constraint fk_project_creator_1 foreign key (creator_id) references user (id) on delete restrict on update restrict;
 create index ix_project_creator_1 on project (creator_id);

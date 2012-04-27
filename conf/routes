@@ -16,6 +16,7 @@ POST    /tasks                  controllers.Application.newTask()
 POST    /tasks/:id/delete       controllers.Application.deleteTask(id: Long)
 
 # Projects
+GET 	/projects/list			 controllers.Projects.list()
 GET 	/projects/create         controllers.Projects.newProject() 
 POST 	/projects/create         controllers.Projects.saveProject() 			
 GET 	/projects/:id            controllers.Projects.show(id: Long)

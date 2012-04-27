@@ -25,6 +25,11 @@ public class Projects extends Controller{
 		return ok(views.html.project.invite.render(invitables,projectId));
 	}
 	
+	public static Result list(){
+		
+		return ok(views.html.project.list.render(Project.find.all()));
+	}
+	
 	public static Result inviteSave(Long projectId){
 		String u = session("currentUser");
 //		User user = User.find.where().eq("username", u).findUnique();
@@ -52,13 +57,13 @@ public class Projects extends Controller{
 		return redirect(routes.Users.view(user.username));
 	}
   
+  
+  
   public static Result show(Long  id){
 	  Project p = Project.find.setId(id).findUnique();
-	 
-	  if(p==null){
+	  	if(p==null){
 		  return notFound();
 	  }
-	  Logger.error("id:" +p.name);
 	  return ok(views.html.project.view.render(p));
   }
 }

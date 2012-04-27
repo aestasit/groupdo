@@ -38,4 +38,15 @@ public class Project extends Model {
 		return find.where().idEq(projectId).eq("creator.username", username).findUnique() !=null;
 	}
 	
+	public boolean isCreatorOrMember(String username){
+		if(this.creator.username.equals(username)){
+			return true;
+		}
+		for (User u : members) {
+			if(u.username.equals(username)){
+				return true;
+			}
+		}
+		return false;
+	}
 }

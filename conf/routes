@@ -11,17 +11,16 @@ POST    /login                              controllers.Application.authenticate
 GET     /logout                             controllers.Application.logout()
 
 # Tasks          
-GET     /tasks                  controllers.Application.tasks()
-POST    /tasks                  controllers.Application.newTask()
-POST    /tasks/:id/delete       controllers.Application.deleteTask(id: Long)
+GET     /tasks                          controllers.Application.tasks()
+POST    /tasks                          controllers.Application.newTask()
+POST    /tasks/:id/delete               controllers.Application.deleteTask(id: Long)
 
 # Projects
-GET 	/projects/list			 controllers.Projects.list()
-GET 	/projects/create         controllers.Projects.newProject() 
-POST 	/projects/create         controllers.Projects.saveProject() 			
-GET 	/projects/:id            controllers.Projects.show(id: Long)
-GET 	/projects/:id/invite     controllers.Projects.invite(id: Long)
-POST   /projects/:id/invite      controllers.Projects.inviteSave(id: Long)
+GET 	/projects/list			        controllers.Projects.list()
+GET 	/projects/create                controllers.Projects.newProject() 
+POST 	/projects/create                controllers.Projects.saveProject() 			
+GET 	/projects/:id                   controllers.Projects.show(id: Long)
+GET     /projects/:id/join              controllers.Projects.join(id: Long)
 # Users
 GET    /users/signup	         controllers.Users.signup()
 POST   /users/signup	         controllers.Users.createUser()

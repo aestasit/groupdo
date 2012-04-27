@@ -10,7 +10,7 @@ users:
     
     - !!models.User
         id:         2
-        username:       user2
+        username:   user2
         password:   f129abd7b6ea9f8f58c6618de9b25d057530c256
     
     - !!models.User

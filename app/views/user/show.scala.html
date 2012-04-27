@@ -1,9 +1,10 @@
-@(createdByYou: List[Project])
+@(createdByYou: List[Project],joined: List[Project])
 @main("You"){
 
 	<h1>Your page</h1>
-	
 	<p><a href="@routes.Projects.newProject()">Create a new Project</a>
+	
+	<div class="span3">
 	@if(createdByYou.isEmpty()) {
   		<p>Nothing to display</p>
 	} else {
@@ -12,26 +13,32 @@
   				<h3>@p.name</h3>
   				<p>
   				<span class="badge badge-info">@(p.getMembers())</span><span> users</span>
-  				<span><a href="@routes.Projects.invite(p.id)" class="inviter">Invite people to this group</a></span>
+  				<div>here goes task number</div>
   				</p>
   			</div>
   		}
-  		<div id="modal" class="modal hide fade" style="display:block"></div>
-  		<script>
-  			$('.inviter').on('click',function(evt){
-  				evt.preventDefault();
-  				var href = $(this).attr("href");
-  				$('#modal').load(href,function(){
-  		            $(this).modal({
-  		                keyboard:true,
-  		                backdrop:true,
-  		                show:true
-  		              });
-  		        });
-  			});
+	  		
   		
-  		</script>	
 	}
+	</div>
+	
+	<div class="span3">
+	@if(joined.isEmpty()) {
+  		<p>Nothing to display</p>
+	} else {
+  		@for(p <- joined){
+  			<div class="span3 well">
+  				<h3>@p.name</h3>
+  				<p>
+  				<span class="badge badge-info">@(p.getMembers())</span><span> users</span>
+  				<div>here goes task number</div>
+  				</p>
+  			</div>
+  		}
+	  		
+  		
+	}
+	</div>
 	
 	
 }

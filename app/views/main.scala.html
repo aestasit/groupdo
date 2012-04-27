@@ -18,9 +18,9 @@
     		<ul class="nav nav-tabs" id="myTab">
   				<li ><a href="@routes.Users.view(session.get("currentUser"))">Your projects</a></li>
   				<li ><a href="@routes.Projects.list()">More Projects</a></li>
-  
+  				<li style="float:right;margin-left:10px;margin-right:0;"><a href="@routes.Application.logout()">Logout</a></li>
 			</ul>
-    		<a href="@routes.Application.logout()">Logout</a>
+    		
     		}
         	@content
         </div>

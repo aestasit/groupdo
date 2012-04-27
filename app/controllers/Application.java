@@ -16,7 +16,8 @@ public class Application extends Controller {
         public String password;
         
         public String validate() {
-            if(User.authenticate(username, password) == null) {
+            User u = null;
+        	if((u = User.authenticate(username, password)) == null) {
                 return "Invalid user or password";
             }
             return null;
@@ -62,7 +63,7 @@ public class Application extends Controller {
     }
 	
   public static Result index() {
-	  String currentUser = session("currentUser");
+	String currentUser = session("currentUser");
 	if(currentUser==null){
 		return redirect(routes.Application.login());
 	}else{

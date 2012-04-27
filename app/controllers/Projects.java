@@ -20,26 +20,21 @@ public class Projects extends Controller{
 	}
   
 	
-	public static Result invite(Long projectId){
-		List<User> invitables = User.findNotPartecipating(projectId);
-		return ok(views.html.project.invite.render(invitables,projectId));
-	}
+	
 	
 	public static Result list(){
-		
 		return ok(views.html.project.list.render(Project.find.all()));
 	}
 	
-	public static Result inviteSave(Long projectId){
+	public static Result join(Long projectId){
 		String u = session("currentUser");
-//		User user = User.find.where().eq("username", u).findUnique();
-//		Logger.error(request().body().asText());
-//		Form<InviteForm> form = form(InviteForm.class).bindFromRequest();
-//		Logger.error(""+form);
-//		Project p = Project.find.byId(projectId);
-//		List<User> invited = User.find.where().idIn(form.get().invite).findList();
-//		p.members.addAll(invited);
-//		p.save();
+		Project p = Project.find.byId(projectId);
+		User user = User.find.where().eq("username", u).findUnique();
+		if(u!=null && p!=null && !p.isCreatorOrMember(user.username)){
+			p.members.add(user);
+			p.saveManyToManyAssociations("members");
+			flash("You succesfully joined the project "+p.name);
+		}
 		return redirect(routes.Users.view(u));
 	}
 	

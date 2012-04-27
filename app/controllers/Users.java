@@ -38,7 +38,8 @@ public class Users extends Controller {
 		}
 					
 		List<Project> createdByYou = Project.find.where().eq("creator", user).findList();
-		return ok(views.html.user.show.render(createdByYou));
+		List<Project> joined = Project.find.where().eq("members.id", user.id).findList();
+		return ok(views.html.user.show.render(createdByYou,joined));
 		
 	}
 }

@@ -11,9 +11,9 @@ POST    /login                              controllers.Application.authenticate
 GET     /logout                             controllers.Application.logout()
 
 # Tasks          
-GET     /tasks                          controllers.Application.tasks()
-POST    /tasks                          controllers.Application.newTask()
-POST    /tasks/:id/delete               controllers.Application.deleteTask(id: Long)
+GET     /projects/:id/tasks             controllers.Tasks.index(id: Long)
+POST    /projects/:id/tasks/new          controllers.Tasks.newTask(id:Long)
+GET     /projects/:id/tasks/ws         controllers.Tasks.ws(id: Long,username:String)
 
 # Projects
 GET 	/projects/list			        controllers.Projects.list()

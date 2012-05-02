@@ -21,11 +21,10 @@ public class Secured extends Security.Authenticator {
     // Access rights
     
     public static boolean isMemberOf(Long project) {
-        return false;
-		//return Project.isMember(
-        //    project,
-        //    Context.current().request().username()
-        //);
+		return Project.isMember(
+            project,
+            Context.current().request().username()
+        );
     }
     
     public static boolean isOwnerOf(Long task) {

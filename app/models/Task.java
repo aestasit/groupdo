@@ -12,15 +12,20 @@ import com.avaje.ebean.*;
 @Entity 
 public class Task extends Model {
     
+  @Id	
   public Long id;
   public String label;
   public Date completed;
-    
   @ManyToOne
+  public User opened;
+  @ManyToOne
+  public User closed;
+    
+  @ManyToOne(cascade=CascadeType.ALL)
   public Project project;
   
-  public static List<Task> all() {
-    return new ArrayList<Task>();
+  public boolean isComplete(){
+	  return completed !=null;
   }
   
   public static void create(Task task) {

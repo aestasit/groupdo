@@ -1,13 +1,15 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -31,12 +33,19 @@ public class Project extends Model {
 	@ManyToMany
 	public List<User> members = new ArrayList<User>();
 	
+	@OneToMany
+	public Set<Task> tasks = new HashSet<Task>();
+	
 	public int getMembers(){
 		return 1 + (members!=null?members.size():0);
 	}
 	
 	public static boolean isOwner(Long projectId,String username){
 		return find.where().idEq(projectId).eq("creator.username", username).findUnique() !=null;
+	}
+	
+	public static boolean isMember(Long projectId,String username){
+		return find.where().idEq(projectId).eq("members.username", username).findList() !=null;
 	}
 	
 	public boolean isCreatorOrMember(String username){

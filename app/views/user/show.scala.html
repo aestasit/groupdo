@@ -1,4 +1,14 @@
 @(createdByYou: List[Project],joined: List[Project])
+
+@display(size:Integer,one:String,many:String) = {
+	@if(size==0){
+		<span class="badge badge-important">@size</span><span> @many</span>
+	}else{
+		<span class="badge badge-info">@size</span><span>@if(size==1){@one}else{@many}</span>
+	}
+}
+
+
 @main("You"){
 
 	<h1>Your page</h1>
@@ -12,12 +22,15 @@
   		<p>You don't have any project as administrator</p>
 	} else {
   		@for(p <- createdByYou){
-  			<div class="well">
-  				<h3>@p.name</h3>
+  			<div class="well project">
+  				<a href="@routes.Tasks.index(p.id)" class="projectlink"><h3>@p.name</h3></a>
+  				
   				<p>
-  				<span class="badge badge-info">@(p.getMembers())</span><span> users</span>
-  				<div>here goes task number</div>
+  				@display(p.getMembers(),"member","members")
   				</p>
+  				<p>
+  				@display(p.tasks.size,"task","tasks")
+  			    </p>
   			</div>
   		}
 	  		
@@ -31,12 +44,14 @@
   		<p>You don't have any project as member</p>
 	} else {
   		@for(p <- joined){
-  			<div class="well">
-  				<h3>@p.name</h3>
+  			<div class="well project">
+  				<a href="@routes.Tasks.index(p.id)" class="projectlink"><h3>@p.name</h3></a>
   				<p>
-  				<span class="badge badge-info">@(p.getMembers())</span><span> users</span>
-  				<div>here goes task number</div>
+  				@display(p.getMembers(),"member","members")
   				</p>
+  				<p>
+  				@display(p.tasks.size,"task","tasks")
+  			    </p>
   			</div>
   		}
 	  		

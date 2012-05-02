@@ -1,2 +1,80 @@
-@(project: Project, tasks: List[Task])
+@(p: Project)
 
+@main("Tasks"){
+	
+	@if(p.tasks.size==0){
+		<h3>No tasks yet.</h3>
+	}
+	<a href="#" class="new-task">Create a new task</a>
+	<div class="tasks row">
+		@for(t <- p.tasks){
+			<div class="well task span-5 @if(t.isComplete()) {"complete"}">
+				<p>@if(!t.isComplete()){<input type="checkbox" class="completer" name="complete-@t.id"/>} <span>@t.label</span></p>
+			</div>
+		}
+	</div>
+}
+
+<script>
+	
+	
+	
+	$(function() {
+		var taskFormRoute = '@routes.Tasks.newTask(p.id)';
+        var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket
+        var wsSocket = new WS("@routes.Tasks.ws(p.id,session.get("currentUser")).webSocketURL(request)");
+        $(document).on('submit','form',function(ev){
+    		ev.preventDefault();
+    		$.ajax($(ev.target).attr('action'),{data:$(ev.target).serialize(),type:'POST',success:function(data,status,jqxhr){
+    				$('#taskform').parent().remove();
+    				var taskdiv = '<div class="well task span-5"><p><input type="checkbox" name="complete-'+ data.id+'"/> <span>'+data.task+'</span></p></div>';
+    				$($('.tasks')[0]).append($(taskdiv));
+    				var json = JSON.stringify(
+    	                    {projectId: data.projectId,task:data.task,creator:data.by,kind:"newTask",taskId:data.id}
+                    );
+    				wsSocket.send(json);
+    		}});
+    	});
+        
+        $('.new-task').click(
+    			function(ev){
+    				ev.preventDefault();
+    				
+    				if($('#taskform').length>0){
+    					return;
+    				}
+    				var template ='<div class="well task span-5"><form method="POST" id="taskform" action="'+taskFormRoute+'" name="taskform" class="form-horizontal"><fieldset><label>Task:<input type="text" name="label"/></label><input type="submit" class="btn btn-primary"></fieldset></form></div>';
+    				if($('.tasks .task').length==0){
+    					$('.tasks').first().append($(template));
+    				}else{
+    					$('.tasks .task').parent().append($(template));
+    				}
+    			});
+        
+        var receiveEvent = function(event) {
+            var data = JSON.parse(event.data)
+            console.log(data);
+            // Handle errors
+            if(data.error) {
+                //wsSocket.close()
+                console.log(data.error);
+                return
+            } else {
+            	
+              	if(data.kind =='newTask'){
+              		console.log(data.message);
+              		
+              		var eventData = JSON.parse(data.message);
+              		var taskdiv = '<div class="well task span-5"><p><input type="checkbox" name="complete-'+ eventData.taskId+'"/> <span>'+eventData.task+'</span></p></div>';
+    				$($('.tasks')[0]).append($(taskdiv));
+              	}
+            }
+            
+           
+        }
+        
+      
+        
+        wsSocket.onmessage = receiveEvent
+	});
+</script>

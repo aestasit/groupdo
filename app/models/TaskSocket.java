@@ -27,7 +27,7 @@ public class TaskSocket extends UntypedActor{
 	static Map<Long,ActorRef> rooms = new HashMap<Long, ActorRef>();
 	static Map<Long,Map<String, WebSocket.Out<JsonNode>>> members = new HashMap<Long,Map<String, WebSocket.Out<JsonNode>>>();
 
-	public static void join(Long projectId,String username,WebSocket.In<JsonNode> in, WebSocket.Out<JsonNode> out) throws Exception{
+	public static void join(final Long projectId,String username,WebSocket.In<JsonNode> in, WebSocket.Out<JsonNode> out) throws Exception{
 		ActorRef room = null;
 		if(rooms.get(projectId)==null){
 			
@@ -50,11 +50,8 @@ public class TaskSocket extends UntypedActor{
 						Long projectId = event.get("projectId").asLong();
 						ActorRef room = rooms.get(projectId);
 						String task = event.get("task").asText();
-						System.out.println(task);
 						String creator =event.get("creator").asText();
-						System.out.println(creator);
 						Long taskId = event.get("taskId").asLong();
-						System.out.println(taskId);
 						room.tell(new NewTask(task,projectId,creator,taskId));
 						
 					}
@@ -66,9 +63,6 @@ public class TaskSocket extends UntypedActor{
 			in.onClose(new Callback0() {
 				public void invoke() {
 					Logger.error("close");
-					// Send a Quit message to the room.
-					//defaultRoom.tell(new Quit(username));
-
 				}
 			});
 
@@ -94,9 +88,12 @@ public class TaskSocket extends UntypedActor{
 				Map<String,WebSocket.Out<JsonNode>> who = members.get(join.projectId);
 				if(who==null){
 					who = new HashMap<String,WebSocket.Out<JsonNode>>();
-					who.put(join.username,join.channel);
+					if(!who.containsKey(join.username)){
+						who.put(join.username,join.channel);
+					}
+					Logger.info("adding "+join.username+" to room" + join.projectId);
+					members.put(join.projectId,who);
 				}
-				members.put(join.projectId,who);
 				notifyAll(join.projectId,"join", join.username, "has entered the room");
 				getSender().tell("OK");
 			
@@ -106,15 +103,23 @@ public class TaskSocket extends UntypedActor{
 			ObjectNode event = Json.newObject();
 			event.put("task",newTask.label);
 			event.put("taskId", newTask.taskId);
-			System.out.println(event.toString());
 			notifyAll(newTask.projectId,"newTask", newTask.username, event.toString());
 			getSender().tell("OK");
+		}
+		else if(message instanceof Quit){
+			Quit quit = (Quit)message;
+			Map<String,WebSocket.Out<JsonNode>> m = members.get(quit.projectId);
+			if(m.get(quit.username)!=null){
+				m.remove(quit.username);
+			}
+			members.put(quit.projectId, m);
 		}
 	}
 	
 	public void notifyAll(Long projectId,String kind, String user, String text) {
         Map<String,WebSocket.Out<JsonNode>> m = members.get(projectId);
-        for(WebSocket.Out<JsonNode> channel: m.values()) {
+        for(String username: m.keySet()) {
+        	if(!username.equals(user)){
             ObjectNode event = Json.newObject();
             event.put("kind", kind);
             event.put("user", user);
@@ -123,8 +128,8 @@ public class TaskSocket extends UntypedActor{
             for(String u: m.keySet()) {
                 membersArray.add(u);
             }
-            
-            channel.write(event);
+            m.get(username).write(event);
+        	}
         }
     }
 
@@ -153,6 +158,18 @@ public class TaskSocket extends UntypedActor{
 				this.projectId = projectId;
 				this.username = username;
 				this.taskId = taskId;
+			}
+
+		}
+		
+		public static class Quit {
+			final Long projectId;
+			final String username;
+
+			public Quit(Long projectId,String username) {
+				
+				this.projectId = projectId;
+				this.username = username;
 			}
 
 		}

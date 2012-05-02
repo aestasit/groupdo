@@ -53,7 +53,6 @@
         
         var receiveEvent = function(event) {
             var data = JSON.parse(event.data)
-            console.log(data);
             // Handle errors
             if(data.error) {
                 //wsSocket.close()
@@ -62,8 +61,6 @@
             } else {
             	
               	if(data.kind =='newTask'){
-              		console.log(data.message);
-              		
               		var eventData = JSON.parse(data.message);
               		var taskdiv = '<div class="well task span-5"><p><input type="checkbox" name="complete-'+ eventData.taskId+'"/> <span>'+eventData.task+'</span></p></div>';
     				$($('.tasks')[0]).append($(taskdiv));
